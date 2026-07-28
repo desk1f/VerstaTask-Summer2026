@@ -55,6 +55,11 @@ function validate(values: FormValues): FormErrors {
   return errors
 }
 
+function focusFirstInvalidField(errors: FormErrors) {
+  const firstField = Object.keys(errors)[0]
+  if (firstField) requestAnimationFrame(() => document.getElementById(firstField)?.focus())
+}
+
 export function NewOrderPage() {
   const navigate = useNavigate()
   const submissionLock = useRef(false)
@@ -77,7 +82,10 @@ export function NewOrderPage() {
     const clientErrors = validate(values)
     setErrors(clientErrors)
     setGeneralError('')
-    if (Object.keys(clientErrors).length > 0) return
+    if (Object.keys(clientErrors).length > 0) {
+      focusFirstInvalidField(clientErrors)
+      return
+    }
 
     submissionLock.current = true
     setIsSubmitting(true)
@@ -101,7 +109,11 @@ export function NewOrderPage() {
           }
         }
         setErrors(current => ({ ...current, ...backendErrors }))
-        if (Object.keys(backendErrors).length === 0) setGeneralError(error.message)
+        if (Object.keys(backendErrors).length === 0) {
+          setGeneralError(error.message)
+        } else {
+          focusFirstInvalidField(backendErrors)
+        }
       } else {
         setGeneralError('Произошла непредвиденная ошибка. Попробуйте ещё раз.')
       }
@@ -138,7 +150,7 @@ export function NewOrderPage() {
         </FormSection>
 
         <div className="form-actions">
-          <button className="button button-primary" type="submit" disabled={isSubmitting}>
+          <button className="button button-primary" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
             {isSubmitting ? 'Сохраняем…' : 'Сохранить заказ'}
           </button>
         </div>

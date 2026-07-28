@@ -44,7 +44,7 @@ export function OrdersPage() {
         <Link className="button button-primary" to="/orders/new">Новый заказ</Link>
       </header>
 
-      {isLoading && <StatusPanel title="Загружаем заказы"><p>Это займёт совсем немного времени.</p></StatusPanel>}
+      {isLoading && <StatusPanel title="Загружаем заказы" isLoading><p>Это займёт совсем немного времени.</p></StatusPanel>}
 
       {!isLoading && error && (
         <StatusPanel title="Не удалось загрузить заказы" tone="error" action={
@@ -64,12 +64,13 @@ export function OrdersPage() {
         <>
           <div className="orders-table-wrap">
             <table className="orders-table">
+              <caption className="visually-hidden">Список сохранённых заказов</caption>
               <thead>
-                <tr><th>Номер</th><th>Отправитель</th><th>Получатель</th><th>Вес</th><th>Дата забора</th><th>Создан</th><th><span className="visually-hidden">Действие</span></th></tr>
+                <tr><th scope="col">Номер</th><th scope="col">Отправитель</th><th scope="col">Получатель</th><th scope="col">Вес</th><th scope="col">Дата забора</th><th scope="col">Создан</th><th scope="col"><span className="visually-hidden">Действие</span></th></tr>
               </thead>
               <tbody>
                 {orders.map(order => (
-                  <tr key={order.id} tabIndex={0} onClick={() => openOrder(order.id)} onKeyDown={event => { if (event.key === 'Enter') openOrder(order.id) }}>
+                  <tr key={order.id} onClick={() => openOrder(order.id)}>
                     <td><strong>№ {order.orderNumber}</strong></td>
                     <td><span>{order.senderCity}</span><small>{order.senderAddress}</small></td>
                     <td><span>{order.recipientCity}</span><small>{order.recipientAddress}</small></td>

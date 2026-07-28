@@ -45,7 +45,7 @@ export function OrderDetailsPage() {
   }, [orderId, requestVersion])
 
   if (status === 'loading') {
-    return <StatusPanel title="Загружаем заказ"><p>Получаем сохранённые данные.</p></StatusPanel>
+    return <StatusPanel title="Загружаем заказ" isLoading><p>Получаем сохранённые данные.</p></StatusPanel>
   }
 
   if (status === 'not-found') {

@@ -12,7 +12,7 @@
 ## Требования
 
 - .NET SDK 9;
-- Node.js и npm.
+- Node.js >= 20.19 и npm.
 
 ## Структура
 
@@ -42,7 +42,7 @@ API будет доступен по адресу `http://localhost:5000`, Swagg
 
 ```bash
 cd src/versta-delivery-orders-client
-npm install
+npm ci
 npm run dev
 ```
 

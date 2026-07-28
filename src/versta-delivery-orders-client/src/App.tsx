@@ -1,4 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
+import { HomePage } from './pages/HomePage'
+import { NewOrderPage } from './pages/NewOrderPage'
 import './App.css'
 
 type PlaceholderPageProps = {
@@ -38,8 +40,8 @@ function App() {
 
       <main className="container main-content">
         <Routes>
-          <Route path="/" element={<PlaceholderPage title="Оформление доставки" description="Здесь можно будет создать заказ на доставку и просмотреть ранее оформленные заказы." />} />
-          <Route path="/orders/new" element={<PlaceholderPage title="Новый заказ" description="Форма оформления заказа появится на следующем этапе разработки." />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/orders/new" element={<NewOrderPage />} />
           <Route path="/orders" element={<PlaceholderPage title="Заказы" description="Список оформленных заказов будет доступен после подключения API." />} />
           <Route path="/orders/:id" element={<PlaceholderPage title="Просмотр заказа" description="Детали заказа будут доступны после подключения API." />} />
           <Route path="*" element={<NotFoundPage />} />

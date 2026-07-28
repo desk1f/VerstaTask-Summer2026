@@ -47,7 +47,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
         ...init?.headers,
       },
     })
-  } catch {
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') throw error
     throw new ApiError('Не удалось связаться с сервером. Проверьте подключение и попробуйте снова.', 0)
   }
 

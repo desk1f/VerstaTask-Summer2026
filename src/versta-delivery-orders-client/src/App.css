@@ -12,7 +12,7 @@
 
 .page-stack { display: grid; gap: 28px; }
 .page-heading { max-width: 700px; }
-.page-heading h1, .hero-section h1, .page-intro h1 { margin: 0; color: #172033; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.04em; }
+.page-heading h1, .hero-section h1 { margin: 0; color: #172033; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.04em; }
 .page-heading > p:last-child { margin: 14px 0 0; color: #5b6779; line-height: 1.6; }
 .eyebrow { margin: 0 0 12px; color: #2c6bed; font-size: .8rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 
@@ -50,8 +50,41 @@
 .alert-error { color: #8d2634; border-color: #f0bcc4; background: #fff3f5; }
 .alert-success { color: #17613c; border-color: #b8e3cd; background: #effaf4; }
 
-.page-intro { max-width: 680px; padding: 36px; border: 1px solid #e3e7ee; border-radius: 14px; background: #fff; box-shadow: 0 8px 24px rgba(24, 38, 65, .05); }
-.page-intro > p:last-child { max-width: 560px; margin: 18px 0 0; color: #526075; font-size: 1.04rem; line-height: 1.6; }
+.heading-with-action { display: flex; max-width: none; align-items: flex-end; justify-content: space-between; gap: 28px; }
+.status-panel { max-width: 720px; padding: 28px; border: 1px solid #e0e5ed; border-radius: 12px; background: #fff; }
+.status-panel h2 { margin: 0; font-size: 1.3rem; }
+.status-description { margin-top: 10px; color: #5b6779; line-height: 1.55; }
+.status-description p { margin: 0; }
+.status-action { margin-top: 20px; }
+.status-error { border-color: #efc4ca; background: #fffafb; }
+
+.orders-table-wrap { overflow-x: auto; border: 1px solid #e0e5ed; border-radius: 12px; background: #fff; }
+.orders-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.orders-table th { padding: 13px 14px; color: #657186; background: #f7f8fa; font-size: .78rem; font-weight: 750; letter-spacing: .03em; text-align: left; text-transform: uppercase; }
+.orders-table td { padding: 15px 14px; border-top: 1px solid #e8ebf0; color: #344156; vertical-align: middle; }
+.orders-table tbody tr { cursor: pointer; transition: background-color 150ms ease; }
+.orders-table tbody tr:hover, .orders-table tbody tr:focus { outline: none; background: #f5f8ff; }
+.orders-table td span, .orders-table td small { display: block; }
+.orders-table td small { max-width: 180px; margin-top: 3px; overflow: hidden; color: #7b8595; text-overflow: ellipsis; white-space: nowrap; }
+.table-action { color: #2259c9; font-weight: 700; }
+.order-cards { display: none; gap: 12px; }
+.order-card { padding: 18px; border: 1px solid #e0e5ed; border-radius: 10px; color: inherit; background: #fff; text-decoration: none; }
+.order-card-heading { display: flex; justify-content: space-between; gap: 16px; }
+.order-card-heading span { color: #2259c9; font-size: .9rem; font-weight: 700; }
+.order-card dl, .details-section dl { margin: 16px 0 0; }
+.order-card dl div { display: flex; justify-content: space-between; gap: 16px; padding-top: 10px; border-top: 1px solid #edf0f4; }
+.order-card dt, .details-section dt { color: #778294; font-size: .84rem; }
+.order-card dd { margin: 0; text-align: right; }
+
+.details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 880px; }
+.details-section { padding: 24px; border: 1px solid #e0e5ed; border-radius: 12px; background: #fff; }
+.details-section-wide { grid-column: 1 / -1; }
+.details-section h2 { margin: 0; font-size: 1.15rem; }
+.details-section dl { display: grid; gap: 14px; }
+.details-section dl div { display: grid; gap: 4px; }
+.details-section dd { margin: 0; color: #27354a; line-height: 1.45; }
+.details-actions { margin-top: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 720px) {
   .container { width: min(100% - 32px, 1080px); }
@@ -62,5 +95,9 @@
   .steps-list, .field-grid { grid-template-columns: 1fr; }
   .steps-list { gap: 14px; }
   .form-section { padding: 20px 16px; }
-  .page-intro { padding: 26px 22px; }
+  .heading-with-action { align-items: flex-start; flex-direction: column; }
+  .orders-table-wrap { display: none; }
+  .order-cards { display: grid; }
+  .details-grid { grid-template-columns: 1fr; }
+  .details-section-wide { grid-column: auto; }
 }

@@ -1,26 +1,10 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
 import { NewOrderPage } from './pages/NewOrderPage'
+import { NotFoundPage } from './pages/NotFoundPage'
+import { OrderDetailsPage } from './pages/OrderDetailsPage'
+import { OrdersPage } from './pages/OrdersPage'
 import './App.css'
-
-type PlaceholderPageProps = {
-  title: string
-  description: string
-}
-
-function PlaceholderPage({ title, description }: PlaceholderPageProps) {
-  return (
-    <section className="page-intro" aria-labelledby="page-title">
-      <p className="eyebrow">Versta Delivery</p>
-      <h1 id="page-title">{title}</h1>
-      <p>{description}</p>
-    </section>
-  )
-}
-
-function NotFoundPage() {
-  return <PlaceholderPage title="Страница не найдена" description="Проверьте адрес или перейдите в нужный раздел через навигацию." />
-}
 
 function App() {
   return (
@@ -32,7 +16,7 @@ function App() {
             <ul className="navigation">
               <li><NavLink to="/" end>Главная</NavLink></li>
               <li><NavLink to="/orders/new">Новый заказ</NavLink></li>
-              <li><NavLink to="/orders">Заказы</NavLink></li>
+              <li><NavLink to="/orders" end>Заказы</NavLink></li>
             </ul>
           </nav>
         </div>
@@ -42,8 +26,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/orders/new" element={<NewOrderPage />} />
-          <Route path="/orders" element={<PlaceholderPage title="Заказы" description="Список оформленных заказов будет доступен после подключения API." />} />
-          <Route path="/orders/:id" element={<PlaceholderPage title="Просмотр заказа" description="Детали заказа будут доступны после подключения API." />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

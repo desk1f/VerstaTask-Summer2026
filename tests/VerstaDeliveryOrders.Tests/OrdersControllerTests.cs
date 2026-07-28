@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using VerstaDeliveryOrders.Api.Contracts;
 using VerstaDeliveryOrders.Api.Controllers;
 using VerstaDeliveryOrders.Api.Data;
@@ -92,6 +93,46 @@ public sealed class OrdersControllerTests
 
         Assert.Equal(DateTimeKind.Utc, order.CreatedAtUtc.Kind);
         Assert.InRange(order.CreatedAtUtc, before, after);
+    }
+
+    [Fact]
+    public async Task SavingAndReadingOrderThroughSqlite_PreservesUtcSemantics()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var createdAtUtc = new DateTime(2026, 7, 28, 15, 30, 45, DateTimeKind.Utc);
+        var entity = Order("Санкт-Петербург", createdAtUtc);
+        fixture.Db.Orders.Add(entity);
+        await fixture.Db.SaveChangesAsync();
+        fixture.Db.ChangeTracker.Clear();
+
+        var loaded = await fixture.Db.Orders.SingleAsync();
+
+        Assert.Equal(createdAtUtc, loaded.CreatedAtUtc);
+        Assert.Equal(DateTimeKind.Utc, loaded.CreatedAtUtc.Kind);
+    }
+
+    [Fact]
+    public async Task PostAndSubsequentGet_SerializeCreatedAtUtcConsistently()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var postResult = await fixture.Controller.Create(ValidRequest(), CancellationToken.None);
+        var created = Assert.IsType<CreatedAtActionResult>(postResult.Result);
+        var postOrder = Assert.IsType<OrderResponse>(created.Value);
+        fixture.Db.ChangeTracker.Clear();
+
+        var getResult = await fixture.Controller.GetById(postOrder.Id, CancellationToken.None);
+        var ok = Assert.IsType<OkObjectResult>(getResult.Result);
+        var getOrder = Assert.IsType<OrderResponse>(ok.Value);
+
+        var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        var postTimestamp = JsonDocument.Parse(JsonSerializer.Serialize(postOrder, options))
+            .RootElement.GetProperty("createdAtUtc").GetString();
+        var getTimestamp = JsonDocument.Parse(JsonSerializer.Serialize(getOrder, options))
+            .RootElement.GetProperty("createdAtUtc").GetString();
+
+        Assert.Equal(DateTimeKind.Utc, getOrder.CreatedAtUtc.Kind);
+        Assert.Equal(postTimestamp, getTimestamp);
+        Assert.EndsWith("Z", postTimestamp);
     }
 
     [Fact]

@@ -141,14 +141,14 @@ public sealed class OrdersControllerTests
         string senderCity = "Санкт-Петербург",
         string recipientAddress = "Тверская улица, 1",
         decimal weight = 2.5m) => new()
-    {
-        SenderCity = senderCity,
-        SenderAddress = "Невский проспект, 1",
-        RecipientCity = "Москва",
-        RecipientAddress = recipientAddress,
-        Weight = weight,
-        PickupDate = new DateTime(2026, 7, 31)
-    };
+        {
+            SenderCity = senderCity,
+            SenderAddress = "Невский проспект, 1",
+            RecipientCity = "Москва",
+            RecipientAddress = recipientAddress,
+            Weight = weight,
+            PickupDate = new DateTime(2026, 7, 31)
+        };
 
     private static Order Order(string senderCity, DateTime createdAtUtc) => new()
     {
